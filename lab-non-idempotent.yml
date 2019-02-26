@@ -1,0 +1,7 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: Non-impodent approach with shell modules
+    shell: echo "nanoservers 192.168.0.1" > /tmp/resolve.conf

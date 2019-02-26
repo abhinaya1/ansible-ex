@@ -1,0 +1,9 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks: 
+   - name: Stat vsftpd service
+     service:
+      name: vsftd
+      state: started

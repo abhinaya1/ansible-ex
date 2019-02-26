@@ -1,0 +1,45 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: Install latest package of httpd
+    yum:
+       name: httpd
+       state: latest
+  - name: Start & Enable the http service
+    service:
+        name: httpd
+        enabled: true
+        state: started
+  - name: Inatall latest package of firewalld
+    yum:
+        name: firewalld
+        state: latest
+  - name: Start & Enable the firewalld service
+    service:
+        name: firewalld
+        enabled: true
+        state: started
+  - name: Permit http service
+    firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+  - name: Create simple html web page
+    copy:
+        content: "Welcome to the Ansible Learning Course Module\n"
+        dest: /var/www/html/index.html
+  - name: Defining Web Server Name
+    lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        line: ServerName www.client.example.com:80
+        insertafter: "#ServerName"
+  - name: Update its entry in /etc/hosts
+    lineinfile:
+        path: /etc/hosts
+        line: 192.168.143.3 www.client.example.com
+
+
+     

@@ -1,0 +1,23 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: latest vsftd version installation
+    yum:
+      name: vsftpd
+      state: latest
+  - name: latest firewalld version installation
+    yum:
+      name: firewalld
+      state: latest
+  - name: vsftpd enabled and running
+    service:
+      name: vsftpd
+      enabled: true
+      state: started
+  - name: firewalld enabled and running
+    service:
+      name: firewalld
+      enabled: true
+      state: started
